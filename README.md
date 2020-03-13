@@ -1,7 +1,11 @@
-# è¼•å·§å‹åµŒå…¥å¼ç³»çµ±
+# »´¥©«¬´O¤J¦¡¨t²Î
 
-æœ¬ç­†è¨˜å…§å®¹çš†ä»¥æ¨¹è“æ´¾3B+ç‚ºå¹³å° è«‹éš¨æ„åƒè€ƒ
+¥»µ§°O¤º®e¬Ò¥H¾ğ²ù¬£3B+¬°¥­¥x ½ĞÀH·N°Ñ¦Ò
 
-- [åˆ†å‰²SDå¡](./01-partition.md)
-- [dockerä»‹ç´¹åŠç°¡å–®ä½¿ç”¨](./02-docker.md)
-- [é–‹å§‹ç·¨è­¯](./03-building.md)
+- Format
+	- [sdcard](./01-partition.md)
+- Requirement
+	- [docker](./02-docker.md)
+- Compiling
+	- [¶}©l½sÄ¶](./03-building.md)
+	- [¦w¸Ë¬yµ{](./04-installation.md)

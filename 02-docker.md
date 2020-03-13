@@ -117,22 +117,36 @@ $ vim Dockerfile
 ```
 
 ```dockerfile
+# Base on the image of debian
 FROM debian:latest
 
-RUN echo "deb http://120.117.72.71/debian/ buster main contrib non-free" > /etc/apt/sources.list
-RUN apt update
-RUN apt install -y g++ make gawk git libncurses5-dev wget python unzip bc cpio rsync vim sudo
+# Modify apt-sources.list
+RUN echo "#deb [arch=amd64] http://120.117.72.71/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb [arch=armhf,arm64] http://opensource.nchc.org.tw/debian/ buster main contrib non-free" >> /etc/apt/sources.list
 
-RUN useradd coreydocker -m -s /bin/bash
+# Add architectures
+RUN dpkg --add-architecture armhf && dpkg --add-architecture arm64
+# Install dependencies
+RUN apt update -y && apt install -y \
+ sed make binutils build-essential \
+ gcc g++ bash patch gawk git libncurses5-dev wget python unzip \
+ bc bison flex kmod libssl-dev cpio rsync vim \
+ crossbuild-essential-armhf crossbuild-essential-arm64 \
+ device-tree-compiler u-boot-tools
 
-RUN echo "coreydocker ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/coreydocker
+# Add a regular user (eg. coreydocker)
+RUN useradd coreydocker -m -s /bin/bash \
+ && echo "root:abc123" | chpasswd \
+&& echo "coreydocker ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/coreydocker
+
+# Switch in
 USER coreydocker
 ```
 
 接著來建置屬於自己的image
 
 ```
-$ docker build -t cross_build_armhf .
+$ docker build -t cross_build .
 ```
 
 跑完後 確認是否已在image list中
@@ -140,7 +154,7 @@ $ docker build -t cross_build_armhf .
 ```
 $ docker image list
 REPOSITORY                                TAG                 IMAGE ID            CREATED             SIZE
-cross_build_armhf                         latest              0db21e089b65        About an hour ago   490MB
+cross_build	                         latest              0db21e089b65        About an hour ago   490MB
 ```
 
 <h3 id="references">參考連結</h3>
